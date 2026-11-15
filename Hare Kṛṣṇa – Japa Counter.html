@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hare Kṛṣṇa</title>
+<style>
+:root{--bg:#0B0B0C;--card:#161618;--line:#262629;--text:#F4F1EA;--mute:#8A8A90;--saf:#E8892B;--gold:#C9A24D;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:16px/1.4 -apple-system,"SF Pro Display","Helvetica Neue",system-ui,sans-serif;user-select:none;-webkit-user-select:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+#app{max-width:430px;height:100%;margin:0 auto;display:flex;flex-direction:column}
+.scr{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;padding:12px 20px;overflow-y:auto}
+.scr.on{display:flex}
+h1{font-size:30px;font-weight:600;margin:8px 0 0;letter-spacing:.2px}
+.date{color:var(--mute);font-size:15px;margin-top:2px}
+.ring{position:relative;width:240px;height:240px;margin:20px 0 14px}
+.ring svg{transform:rotate(-90deg);display:block}
+.ring circle{fill:none;stroke-width:8}
+#arc{stroke:var(--saf);stroke-linecap:round;transition:stroke-dashoffset .35s ease,stroke .35s}
+.mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.big{font-size:58px;font-weight:200;line-height:1}.big small{font-size:28px;color:var(--mute)}
+.cap{color:var(--mute);font-size:11px;letter-spacing:2.5px;margin-top:8px}
+#left{color:var(--mute)}#left.done{color:var(--gold)}
+.low{margin-top:auto;width:100%;display:flex;flex-direction:column;align-items:center;padding-bottom:8px}
+.seg{display:flex;background:var(--card);border-radius:12px;padding:3px}
+.seg button{padding:8px 16px;border-radius:10px;color:var(--mute);font-size:14px;font-weight:500;transition:background .2s,color .2s}
+.seg button.on{background:#2A2A2E;color:var(--text)}
+#beads{height:30px;margin:12px 0;color:var(--gold);font-size:22px;font-weight:300}
+#tap{width:100%;height:90px;border-radius:45px;background:var(--saf);color:#1A1208;font-size:21px;font-weight:600;transition:transform .1s,opacity .1s}
+#tap:active{transform:scale(.97);opacity:.9}
+#undo{margin-top:16px;color:var(--mute);padding:6px 14px}#undo:disabled{opacity:.3}
+.tabs{display:flex;border-top:1px solid var(--line)}
+.tabs button{flex:1;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--mute);font-size:11px}
+.tabs button.on{color:var(--saf)}
+.tabs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nav{width:100%;display:flex;justify-content:space-between;align-items:center;padding:8px 0 12px}
+.nav b{font-size:21px;font-weight:600}.nav button{color:var(--saf);font-size:32px;padding:0 10px;line-height:1}
+.grid{width:100%;display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.wk{color:var(--mute);font-size:12px;text-align:center;padding:6px 0}
+.d{aspect-ratio:.85;border-radius:12px;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:16px}
+.d i{font-style:normal;color:var(--mute);font-size:11px;margin-top:2px;min-height:14px}
+.d.t{background:var(--card)}.d.ok{border-color:var(--gold);background:rgba(201,162,77,.1);color:var(--gold)}
+.card{width:100%;background:var(--card);border-radius:16px;padding:4px 16px;margin-top:18px}
+.row{display:flex;justify-content:space-between;align-items:center;min-height:52px;width:100%}
+.row+.row{border-top:1px solid var(--line)}
+.row span:last-child,.mute{color:var(--mute)}.row b{font-weight:600}
+.row.bad{color:#E5675B;text-align:left}
+.step{display:flex;align-items:center}.step button{color:var(--saf);font-size:28px;padding:0 12px}.step b{min-width:28px;text-align:center}
+.sw{appearance:none;-webkit-appearance:none;width:50px;height:30px;border-radius:15px;background:#2A2A2E;position:relative;transition:background .2s;margin:0;cursor:pointer}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw:checked{background:var(--saf)}.sw:checked::after{transform:translateX(20px)}
+input[type=time]{background:#2A2A2E;color:var(--text);border:0;border-radius:8px;padding:6px 8px;font:inherit}
+.foot{color:var(--mute);font-size:13px;margin-top:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <section class="scr on" id="home">
+    <h1>Hare Kṛṣṇa</h1>
+    <div class="date" id="date"></div>
+    <div class="ring">
+      <svg width="240" height="240" viewBox="0 0 240 240"><circle cx="120" cy="120" r="116" stroke="var(--line)"/><circle id="arc" cx="120" cy="120" r="116"/></svg>
+      <div class="mid"><div class="big"><span id="done">0</span><small> / <span id="goal">16</span></small></div><div class="cap">ROUNDS COMPLETED</div></div>
+    </div>
+    <div id="left"></div>
+    <div class="low">
+      <div class="seg"><button data-m="round" class="on">Round Counter</button><button data-m="bead">Bead Counter</button></div>
+      <div id="beads"></div>
+      <button id="tap"></button>
+      <button id="undo">Undo</button>
+    </div>
+  </section>
+  <section class="scr" id="history"></section>
+  <section class="scr" id="settings"></section>
+  <nav class="tabs">
+    <button data-t="home" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5"/></svg>Home</button>
+    <button data-t="history"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>History</button>
+    <button data-t="settings"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="var(--bg)"/><circle cx="15" cy="12" r="2" fill="var(--bg)"/><circle cx="8" cy="17" r="2" fill="var(--bg)"/></svg>Settings</button>
+  </nav>
+</div>
+<script>
+const BEADS = 108, $ = s => document.querySelector(s), CIRC = 2 * Math.PI * 116;
+const dayKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const fmt = t => { const r = t / BEADS; return Number.isInteger(r) ? String(r) : r.toFixed(1); };
+let D = { days: {}, s: { target: 16, haptics: true, sound: false, reminder: false, time: '05:00' } };
+try { const p = JSON.parse(localStorage.getItem('japa.v1') || 'null'); if (p) D = { days: p.days || {}, s: { ...D.s, ...p.s } }; } catch (e) {}
+const save = () => { try { localStorage.setItem('japa.v1', JSON.stringify(D)); } catch (e) {} };
+let mode = 'round', today = dayKey(), tab = 'home', hm = new Date(new Date().getFullYear(), new Date().getMonth(), 1), armed = '', lastTap = 0;
+const total = () => (D.days[today] || {}).total || 0;
+
+function add(n) {
+  today = dayKey();
+  const d = D.days[today] || (D.days[today] = { total: 0, log: [], target: D.s.target });
+  d.total += n; d.log.push(n); d.target = D.s.target; save(); render();
+}
+function undo() {
+  const d = D.days[dayKey()]; if (!d || !d.log.length) return;
+  d.total -= d.log.pop(); save(); render();
+}
+function feedback(kind) {
+  if (D.s.haptics) try { navigator.vibrate && navigator.vibrate(kind); } catch (e) {}
+  if (D.s.sound) try {
+    const c = window.__ac || (window.__ac = new (window.AudioContext || window.webkitAudioContext)()), o = c.createOscillator(), g = c.createGain();
+    o.frequency.value = kind > 10 ? 520 : 400; g.gain.setValueAtTime(.08, c.currentTime); g.gain.exponentialRampToValueAtTime(.001, c.currentTime + .15);
+    o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + .15);
+  } catch (e) {}
+}
+function tap() {
+  const now = Date.now(); if (now - lastTap < 70) return; lastTap = now;
+  const n = mode === 'round' ? BEADS : 1, t = total(), goal = D.s.target * BEADS;
+  feedback(t < goal && t + n >= goal ? 40 : Math.floor((t + n) / BEADS) > Math.floor(t / BEADS) ? 20 : 8);
+  add(n);
+}
+
+function renderHome() {
+  const t = total(), goal = D.s.target * BEADS, r = Math.floor(t / BEADS), left = Math.max(0, D.s.target - r), ok = t >= goal;
+  $('#date').textContent = new Date(today + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+  $('#done').textContent = r; $('#goal').textContent = D.s.target;
+  const arc = $('#arc'); arc.style.strokeDasharray = CIRC; arc.style.strokeDashoffset = CIRC * (1 - Math.min(1, t / goal));
+  arc.style.opacity = t ? 1 : 0; arc.style.stroke = ok ? 'var(--gold)' : '';
+  const l = $('#left'); l.className = ok ? 'done' : ''; l.textContent = ok ? 'Daily target complete ✓' : left + ' round' + (left === 1 ? '' : 's') + ' remaining';
+  $('#beads').textContent = mode === 'bead' ? (t % BEADS) + ' / ' + BEADS : '';
+  $('#tap').textContent = mode === 'round' ? '+1 Round' : '+1 Maha-mantra';
+  $('#undo').disabled = !t;
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.m === mode));
+}
+
+function renderHistory() {
+  const y = hm.getFullYear(), mo = hm.getMonth(), n = new Date(y, mo + 1, 0).getDate(), key = d => dayKey(new Date(y, mo, d));
+  const met = r => r.total >= (r.target || D.s.target) * BEADS;
+  let tot = 0, hit = 0, cells = '';
+  for (let i = 0; i < hm.getDay(); i++) cells += '<div></div>';
+  for (let d = 1; d <= n; d++) {
+    const r = D.days[key(d)], ok = r && met(r); if (r) { tot += r.total; if (ok) hit++; }
+    cells += `<div class="d${ok ? ' ok' : ''}${key(d) === today ? ' t' : ''}">${d}<i>${r && r.total ? fmt(r.total) : ''}</i></div>`;
+  }
+  const all = Object.values(D.days).reduce((a, r) => a + r.total, 0);
+  $('#history').innerHTML = `<div class="nav"><button data-h="-1" aria-label="Previous month">‹</button><b>${hm.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</b><button data-h="1" aria-label="Next month">›</button></div>
+  <div class="grid">${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(w => `<div class="wk">${w}</div>`).join('')}${cells}</div>
+  <div class="card"><div class="row"><span class="mute">Rounds this month</span><b>${fmt(tot)}</b></div><div class="row"><span class="mute">Days target met</span><b>${hit}</b></div><div class="row"><span class="mute">Total rounds, all time</span><b>${fmt(all)}</b></div></div>`;
+}
+
+function renderSettings() {
+  const s = D.s, sw = (k, v) => `<input type="checkbox" class="sw" data-k="${k}" ${v ? 'checked' : ''}>`;
+  $('#settings').innerHTML = `<h1 style="align-self:flex-start">Settings</h1><div class="card">
+  <div class="row"><span>Daily round target</span><div class="step"><button data-step="-1" aria-label="Decrease">−</button><b>${s.target}</b><button data-step="1" aria-label="Increase">+</button></div></div>
+  <div class="row"><span>Haptic feedback</span>${sw('haptics', s.haptics)}</div>
+  <div class="row"><span>Sound</span>${sw('sound', s.sound)}</div>
+  <div class="row"><span>Daily reminder</span>${sw('reminder', s.reminder)}</div>
+  ${s.reminder ? `<div class="row"><span>Reminder time</span><input type="time" id="time" value="${s.time}"></div>` : ''}</div>
+  <div class="card"><button class="row bad" data-do="reset">${armed === 'reset' ? 'Tap again to reset today’s progress' : 'Reset today’s progress'}</button>
+  <button class="row bad" data-do="erase">${armed === 'erase' ? 'Tap again to erase all history' : 'Erase all history'}</button></div>
+  <div class="foot">All data stays on this device.</div>`;
+}
+
+function render() {
+  today = dayKey(); renderHome();
+  if (tab === 'history') renderHistory();
+  if (tab === 'settings') renderSettings();
+}
+function show(t) {
+  tab = t; armed = '';
+  document.querySelectorAll('.scr').forEach(s => s.classList.toggle('on', s.id === t));
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+  render();
+}
+
+$('#tap').addEventListener('pointerdown', e => { e.preventDefault(); tap(); });
+$('#tap').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tap(); } });
+$('#undo').onclick = undo;
+document.querySelector('.seg').onclick = e => { if (e.target.dataset.m) { mode = e.target.dataset.m; render(); } };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('button'); if (b) show(b.dataset.t); };
+$('#history').onclick = e => { const b = e.target.closest('[data-h]'); if (b) { hm = new Date(hm.getFullYear(), hm.getMonth() + +b.dataset.h, 1); renderHistory(); } };
+$('#settings').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.step) D.s.target = Math.min(64, Math.max(1, D.s.target + +b.dataset.step));
+  else if (b.dataset.do) {
+    if (armed !== b.dataset.do) { armed = b.dataset.do; setTimeout(() => { armed = ''; if (tab === 'settings') renderSettings(); }, 3000); }
+    else { if (armed === 'reset') delete D.days[dayKey()]; else D.days = {}; armed = ''; }
+  } else return;
+  save(); render();
+};
+$('#settings').onchange = e => {
+  const k = e.target.dataset.k;
+  if (k) { D.s[k] = e.target.checked; if (k === 'reminder' && e.target.checked) try { Notification.requestPermission(); } catch (x) {} }
+  else if (e.target.id === 'time') D.s.time = e.target.value || '05:00';
+  save(); render();
+};
+
+// Midnight rollover + optional reminder while the page is open
+let notified = '';
+setInterval(() => {
+  if (dayKey() !== today) render();
+  const n = new Date(), hhmm = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0');
+  if (D.s.reminder && hhmm === D.s.time && notified !== dayKey() + hhmm) {
+    notified = dayKey() + hhmm;
+    try { if (Notification.permission === 'granted') new Notification('Hare Kṛṣṇa', { body: 'Time for your japa.' }); } catch (e) {}
+  }
+}, 15000);
+document.addEventListener('visibilitychange', render);
+render();
+</script>
+</body>
+</html>
